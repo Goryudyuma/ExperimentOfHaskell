@@ -68,7 +68,8 @@ toDouble (Fraction x (y, z)) = fromIntegral (x*z + y) / fromIntegral z
 toImproper :: Fraction -> Fraction
 toImproper (Fraction x (y, z)) = (Fraction 0 (x*z+y, z))
 
---y‚Æz‚ð‚Ð‚Á‚­‚è•Ô‚·ŠÖ”
---‰¼•ª”‚É‚µ‚Ä‚©‚ç‚Ð‚Á‚­‚è•Ô‚·‚±‚ÆB
+--y‚Æz‚ð‚Ð‚Á‚­‚è•Ô‚·ŠÖ”B
 toReverse :: Fraction -> Fraction
-toReverse (Fraction x (y, z)) = Fraction x (z, y)
+toReverse (Fraction x (y, z)) 
+	| x == 0 = Fraction x (z, y)
+	| otherwise = toImproper (Fraction x (y, z))
