@@ -6,3 +6,9 @@ Haskell練習場
 
 
 Compiler: ghc
+
+内容
+=====
+Fraction.hs ： 帯分数を扱うモジュール
+
+
