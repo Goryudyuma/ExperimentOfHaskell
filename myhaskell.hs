@@ -23,9 +23,15 @@ infixr 5 /-:-
 (Fraction a (b,c)) /-:- (Fraction x (y,z)) = reduce ((a-x) /- (b*z - c*y, c*z))
 
 -- Fraction Int (Int, Int)“¯m‚ÌŠ|‚¯Z
+<<<<<<< HEAD
 infixr 6 /-:*
 (/-:*) :: Fraction Int (Int, Int) -> Fraction Int (Int, Int) -> Fraction Int (Int, Int)
 (Fraction a (b,c)) /-:* (Fraction x (y,z)) = reduce ((a*x) /- (b*y, c*z))
+=======
+infixr 5 ++*
+(++*) :: Fraction Int (Int, Int) -> Fraction Int (Int, Int) -> Fraction Int (Int, Int)
+(Fraction a (b,c)) ++* (Fraction x (y,z)) = reduce (0 /- (a*c*x*z+b*x*z+a*c*y+b*y, c*z))
+>>>>>>> 607d54ae36e9bbbc6965dc91145ac1982efc4d19
 
 
 -- –ñ•ª‚·‚éŠÖ”
