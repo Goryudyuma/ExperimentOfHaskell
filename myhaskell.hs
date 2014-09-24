@@ -2,7 +2,7 @@
 
 -- ‘Ñ•ª”
 data Fraction = Fraction Int (Int, Int)
- deriving (Show, Read, Eq, Ord)
+ deriving (Show, Eq, Ord)
 
 -- ‘Ñ•ª”‚ğ‹‚ß‚éŠÖ”
 infixl 9 /-

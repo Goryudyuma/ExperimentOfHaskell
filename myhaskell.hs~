@@ -2,7 +2,7 @@
 
 -- ‘Ñ•ª”
 data Fraction = Fraction Int (Int, Int)
- deriving (Show, Read, Eq, Ord)
+ deriving (Show, Eq, Ord)
 
 -- ‘Ñ•ª”‚ð‹‚ß‚éŠÖ”
 infixl 9 /-
@@ -29,5 +29,9 @@ infixr 6 /-:*
 
 
 -- –ñ•ª‚·‚éŠÖ”
-reduce :: Fraction Int -> Fraction Int
+reduce :: Fraction -> Fraction
 reduce (Fraction a (b,c)) = Fraction a (b `div` (gcd b c), c `div` (gcd b c))
+
+-- Double‚É•ÏŠ·‚·‚éŠÖ”
+toDouble :: Fraction -> Double
+toDouble (Fraction x (y, z)) = (x*z + y) / z
