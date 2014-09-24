@@ -49,16 +49,19 @@ infixr 5 /-:-
 -- Fraction“¯Žm‚ÌŠ|‚¯ŽZ
 infixr 6 /-:*
 (/-:*) :: Fraction -> Fraction -> Fraction
-(Fraction a (b,c)) /-:* (Fraction x (y,z)) = reduce (0 /- (a*c*x*z+b*x*z+a*c*y+b*y, c*z))
+(Fraction a (b,c)) /-:* (Fraction x (y,z))
+	| a == 0 && x == 0 = reduce (0 /- (b*y, c*z))
+	| a /= 0 = toImproper (Fraction a (b, c)) /-:* (Fraction x (y, z))
+	| otherwise = (Fraction a (b, c)) /-:* (toImproper $ Fraction x (y, z))
 
 -- Fraction“¯Žm‚ÌŠ„‚èŽZ
 infixr 6 /-:/
 (/-:/) :: Fraction -> Fraction -> Fraction
-(Fraction a (b,c)) /-:/ (Fraction x (y,z)) = (Fraction a (b,c)) /-:* toReverse(Fraction x (y,z))
+(Fraction a (b,c)) /-:/ (Fraction x (y,z)) = (Fraction a (b,c)) /-:* toReverse (Fraction x (y,z))
 
 -- –ñ•ª‚·‚éŠÖ”
 reduce :: Fraction -> Fraction
-reduce (Fraction a (b,c)) = a /-(b `div` (gcd b c), c `div` (gcd b c))
+reduce (Fraction a (b,c)) = a /- (b `div` (gcd b c), c `div` (gcd b c))
 
 -- Double‚É•ÏŠ·‚·‚éŠÖ”
 toDouble :: Fraction -> Double
@@ -66,10 +69,10 @@ toDouble (Fraction x (y, z)) = fromIntegral (x*z + y) / fromIntegral z
 
 --‰¼•ª”(improper fractions)‚É‚·‚éŠÖ”
 toImproper :: Fraction -> Fraction
-toImproper (Fraction x (y, z)) = (Fraction 0 (x*z+y, z))
+toImproper (Fraction x (y, z)) = Fraction 0 (x*z+y, z)
 
 --y‚Æz‚ð‚Ð‚Á‚­‚è•Ô‚·ŠÖ”B
 toReverse :: Fraction -> Fraction
 toReverse (Fraction x (y, z)) 
 	| x == 0 = Fraction x (z, y)
-	| otherwise = toReverse(toImproper (Fraction x (y, z)))
+	| otherwise = toReverse $ toImproper $ (Fraction x (y, z))
