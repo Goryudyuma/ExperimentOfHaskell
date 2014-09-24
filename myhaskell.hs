@@ -25,7 +25,7 @@ infixr 5 ++-
 -- Fraction Int (Int, Int)“¯m‚ÌŠ|‚¯Z
 infixr 5 ++*
 (++*) :: Fraction Int (Int, Int) -> Fraction Int (Int, Int) -> Fraction Int (Int, Int)
-(Fraction a (b,c)) ++* (Fraction x (y,z)) = reduce ((a*x) /- (b*y, c*z))
+(Fraction a (b,c)) ++* (Fraction x (y,z)) = reduce (0 /- (a*c*x*z+b*x*z+a*c*y+b*y, c*z))
 
 
 -- –ñ•ª‚·‚éŠÖ”
