@@ -1,0 +1,68 @@
+{-# OPTIONS -Wall -Werror #-}
+
+{- 
+ - ‘Ñ•ª”‚ðˆµ‚¤ƒ‚ƒWƒ…[ƒ‹Fraction
+ - Fraction‚ð’¼Úì¬‚Í‚Å‚«‚Ü‚¹‚ñB
+ - /- ‰‰ŽZŽq‚È‚Ç‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+ -  -}
+
+module Fraction
+( Fraction
+, (/-)
+, (/-:+)
+, (/-:-)
+, (/-:*)
+, (/-:/)
+, reduce
+, toDouble
+, toImproper
+) where
+
+-- ‘Ñ•ª”
+data Fraction = Fraction Int (Int, Int)
+ deriving (Show, Read, Eq, Ord)
+
+-- ‘Ñ•ª”‚ð‹‚ß‚éŠÖ”
+infixl 9 /-
+(/-) :: Int -> (Int, Int) -> Fraction
+x /- (y,z)
+	| y < 0 = (x - 1) /- (y + z, z)
+	| y < z = Fraction x (y,z)
+	| otherwise = (x + 1) /- (y-z, z)
+
+-- Fraction“¯Žm‚Ì‘«‚µŽZ
+infixr 5 /-:+
+(/-:+) :: Fraction -> Fraction -> Fraction
+(Fraction a (b,c)) /-:+ (Fraction x (y,z)) = reduce ((a+x) /- (b*z + c*y, c*z))
+
+-- Fraction“¯Žm‚Ìˆø‚«ŽZ
+infixr 5 /-:-
+(/-:-) :: Fraction -> Fraction -> Fraction
+(Fraction a (b,c)) /-:- (Fraction x (y,z)) = reduce ((a-x) /- (b*z - c*y, c*z))
+
+-- Fraction“¯Žm‚ÌŠ|‚¯ŽZ
+infixr 6 /-:*
+(/-:*) :: Fraction -> Fraction -> Fraction
+(Fraction a (b,c)) /-:* (Fraction x (y,z)) = reduce (0 /- (a*c*x*z+b*x*z+a*c*y+b*y, c*z))
+
+-- Fraction“¯Žm‚ÌŠ„‚èŽZ
+infixr 6 /-:/
+(/-:/) :: Fraction -> Fraction -> Fraction
+(Fraction a (b,c)) /-:/ (Fraction x (y,z)) = (Fraction a (b,c)) /-:* toReverse(toImproper(Fraction x (y,z)))
+
+-- –ñ•ª‚·‚éŠÖ”
+reduce :: Fraction -> Fraction
+reduce (Fraction a (b,c)) = a /-(b `div` (gcd b c), c `div` (gcd b c))
+
+-- Double‚É•ÏŠ·‚·‚éŠÖ”
+toDouble :: Fraction -> Double
+toDouble (Fraction x (y, z)) = fromIntegral (x*z + y) / fromIntegral z
+
+--‰¼•ª”(improper fractions)‚É‚·‚éŠÖ”
+toImproper :: Fraction -> Fraction
+toImproper (Fraction x (y, z)) = (Fraction 0 (x*z+y, z))
+
+--y‚Æz‚ð‚Ð‚Á‚­‚è•Ô‚·ŠÖ”
+--‰¼•ª”‚É‚µ‚Ä‚©‚ç‚Ð‚Á‚­‚è•Ô‚·‚±‚ÆB
+toReverse :: Fraction -> Fraction
+toReverse (Fraction x (y, z)) = Fraction x (z, y)
