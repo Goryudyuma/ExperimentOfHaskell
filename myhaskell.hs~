@@ -19,12 +19,12 @@ infixr 5 /-:+
 
 -- Fraction Int (Int, Int)“¯Žm‚Ìˆø‚«ŽZ
 infixr 5 /-:-
-(/-:-) :: Fraction Int (Int, Int) -> Fraction Int (Int, Int) -> Fraction Int (Int, Int)
+(++-) :: Fraction Int (Int, Int) -> Fraction Int (Int, Int) -> Fraction Int (Int, Int)
 (Fraction a (b,c)) /-:- (Fraction x (y,z)) = reduce ((a-x) /- (b*z - c*y, c*z))
 
 -- Fraction Int (Int, Int)“¯Žm‚ÌŠ|‚¯ŽZ
 infixr 6 /-:*
-(/-:*) :: Fraction Int (Int, Int) -> Fraction Int (Int, Int) -> Fraction Int (Int, Int)
+(++*) :: Fraction Int (Int, Int) -> Fraction Int (Int, Int) -> Fraction Int (Int, Int)
 (Fraction a (b,c)) /-:* (Fraction x (y,z)) = reduce ((a*x) /- (b*y, c*z))
 
 
