@@ -30,8 +30,8 @@ data Fraction = Fraction Int (Numerator, Denominator)
 infixl 9 /-
 (/-) :: Int -> (Int, Int) -> Fraction
 x /- (y,z)
-	| z < 0 = x /- (-y, -z)
 	| z == 0 = error "Denominator of the fraction is 0"
+	| z < 0 = x /- (negate y, abs z)
 	| y < 0 = (x - 1) /- (y + z, z)
 	| y < z = Fraction x (y,z)
 	| otherwise = (x + 1) /- (y-z, z)
