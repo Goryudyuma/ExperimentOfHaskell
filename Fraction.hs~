@@ -18,12 +18,8 @@ module Fraction
 , toImproper
 ) where
 
-type Numerator = Int
-type Denominator = Int
-
-
 -- ‘Ñ•ª”
-data Fraction = Fraction Int (Numerator, Denominator)
+data Fraction = Fraction Int (Int, Int)
  deriving (Show, Read, Eq, Ord)
 
 -- ‘Ñ•ª”‚ğ‹‚ß‚éŠÖ”
