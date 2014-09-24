@@ -66,16 +66,16 @@ x ||| y
 
 infixl 1 !&&
 (!&&) :: Ternary -> Ternary -> Ternary
-x !&& y = not' (x `and'` y) 
+x !&& y = (!!!) (x &&& y) 
 
 infixl 1 !||
 (!||) :: Ternary -> Ternary -> Ternary
-x !|| y = not' (x `or'` y)
+x !|| y = (!!!) (x ||| y)
 
 infixl 1 ^||
 (^||) :: Ternary -> Ternary -> Ternary
-x ^|| y = (x `and'` y ) `and'` (x `nor'` y)
+x ^|| y = (x &&& y ) &&& (x !|| y)
 
 infixl 1 ^!|
 (^!|) :: Ternary -> Ternary -> Ternary
-x ^!| y = not' (x `xor'` y)
+x ^!| y = (!!!) (x ^|| y)
