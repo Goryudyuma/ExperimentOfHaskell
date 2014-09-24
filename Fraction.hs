@@ -23,7 +23,7 @@ type Denominator = Int
 
 
 -- ‘Ñ•ª”
-data Fraction = Invalid | Fraction Int (Numerator, Denominator)
+data Fraction = Invalid | Fraction Int (Numerator, Denominator) 
  deriving (Show, Read, Eq, Ord)
 
 -- ‘Ñ•ª”‚ğ‹‚ß‚éŠÖ”
