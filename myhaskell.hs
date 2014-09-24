@@ -22,11 +22,6 @@ infixr 5 /-:-
 (/-:-) :: Fraction -> Fraction -> Fraction
 (Fraction a (b,c)) /-:- (Fraction x (y,z)) = reduce ((a-x) /- (b*z - c*y, c*z))
 
--- Fraction Int (Int, Int)“¯Žm‚ÌŠ|‚¯ŽZ
-infixr 5 ++*
-(++*) :: Fraction Int (Int, Int) -> Fraction Int (Int, Int) -> Fraction Int (Int, Int)
-(Fraction a (b,c)) ++* (Fraction x (y,z)) = reduce (0 /- (a*c*x*z+b*x*z+a*c*y+b*y, c*z))
-
 -- Fraction“¯Žm‚ÌŠ|‚¯ŽZ
 infixr 6 /-:*
 (/-:*) :: Fraction -> Fraction -> Fraction
