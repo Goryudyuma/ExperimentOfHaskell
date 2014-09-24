@@ -8,8 +8,8 @@ data Fraction = Fraction Int (Int, Int)
 infixl 9 /-
 (/-) :: Int -> (Int, Int) -> Fraction
 x /- (y,z)
-	| y < z = Fraction x (y,z)
 	| y < 0 = (x - 1) /- (y + z, z)
+	| y < z = Fraction x (y,z)
 	| otherwise = (x + 1) /- (y-z, z)
 
 -- Fraction“¯Žm‚Ì‘«‚µŽZ
@@ -30,7 +30,7 @@ infixr 6 /-:*
 
 -- –ñ•ª‚·‚éŠÖ”
 reduce :: Fraction -> Fraction
-reduce (Fraction a (b,c)) = Fraction a (b `div` (gcd b c), c `div` (gcd b c))
+reduce (Fraction a (b,c)) = a /-(b `div` (gcd b c), c `div` (gcd b c))
 
 -- Double‚É•ÏŠ·‚·‚éŠÖ”
 toDouble :: Fraction -> Double
