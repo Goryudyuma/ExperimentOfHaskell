@@ -31,3 +31,7 @@ infixr 6 /-:*
 -- –ñ•ª‚·‚éŠÖ”
 reduce :: Fraction -> Fraction
 reduce (Fraction a (b,c)) = Fraction a (b `div` (gcd b c), c `div` (gcd b c))
+
+-- Double‚É•ÏŠ·‚·‚éŠÖ”
+toDouble :: Fraction -> Double
+toDouble (Fraction x (y, z)) = fromIntegral (x*z + y) / fromIntegral z
