@@ -23,14 +23,14 @@ type Denominator = Int
 
 
 -- ‘Ñ•ª”
-data Fraction = Fraction Int (Numerator, Denominator)
+data Fraction = Invalid | Fraction Int (Numerator, Denominator)
  deriving (Show, Read, Eq, Ord)
 
 -- ‘Ñ•ª”‚ð‹‚ß‚éŠÖ”
 infixl 9 /-
 (/-) :: Int -> (Int, Int) -> Fraction
 x /- (y,z)
-	| z == 0 = error "Denominator of the fraction is 0"
+	| z == 0 = Invalid
 	| z < 0 = x /- (negate y, abs z)
 	| y < 0 = (x - 1) /- (y + z, z)
 	| y < z = Fraction x (y,z)
@@ -39,16 +39,22 @@ x /- (y,z)
 -- Fraction“¯Žm‚Ì‘«‚µŽZ
 infixr 5 /-:+
 (/-:+) :: Fraction -> Fraction -> Fraction
+Invalid /-:+ _ = Invalid
+_ /-:+ Invalid = Invalid
 (Fraction a (b,c)) /-:+ (Fraction x (y,z)) = reduce ((a+x) /- (b*z + c*y, c*z))
 
 -- Fraction“¯Žm‚Ìˆø‚«ŽZ
 infixr 5 /-:-
 (/-:-) :: Fraction -> Fraction -> Fraction
+Invalid /-:- _ = Invalid
+_ /-:- Invalid = Invalid
 (Fraction a (b,c)) /-:- (Fraction x (y,z)) = reduce ((a-x) /- (b*z - c*y, c*z))
 
 -- Fraction“¯Žm‚ÌŠ|‚¯ŽZ
 infixr 6 /-:*
 (/-:*) :: Fraction -> Fraction -> Fraction
+Invalid /-:* _ = Invalid
+_ /-:* Invalid = Invalid
 (Fraction a (b,c)) /-:* (Fraction x (y,z))
 	| a == 0 && x == 0 = reduce (0 /- (b*y, c*z))
 	| a /= 0 = toImproper (Fraction a (b, c)) /-:* (Fraction x (y, z))
@@ -57,22 +63,28 @@ infixr 6 /-:*
 -- Fraction“¯Žm‚ÌŠ„‚èŽZ
 infixr 6 /-:/
 (/-:/) :: Fraction -> Fraction -> Fraction
+Invalid /-:/ _ = Invalid
+_ /-:/ Invalid = Invalid
 (Fraction a (b,c)) /-:/ (Fraction x (y,z)) = (Fraction a (b,c)) /-:* toReverse (Fraction x (y,z))
 
 -- –ñ•ª‚·‚éŠÖ”
 reduce :: Fraction -> Fraction
+reduce Invalid = Invalid
 reduce (Fraction a (b,c)) = a /- (b `div` (gcd b c), c `div` (gcd b c))
 
 -- Double‚É•ÏŠ·‚·‚éŠÖ”
-toDouble :: Fraction -> Double
-toDouble (Fraction x (y, z)) = fromIntegral (x*z + y) / fromIntegral z
+toDouble :: Fraction -> Maybe Double
+toDouble Invalid = Nothing
+toDouble (Fraction x (y, z)) = Just $ fromIntegral (x*z + y) / fromIntegral z
 
 --‰¼•ª”(improper fractions)‚É‚·‚éŠÖ”
 toImproper :: Fraction -> Fraction
+toImproper Invalid = Invalid
 toImproper (Fraction x (y, z)) = Fraction 0 (x*z+y, z)
 
 --y‚Æz‚ð‚Ð‚Á‚­‚è•Ô‚·ŠÖ”B
 toReverse :: Fraction -> Fraction
+toReverse Invalid = Invalid
 toReverse (Fraction x (y, z)) 
 	| x == 0 = Fraction x (z, y)
 	| otherwise = toReverse $ toImproper $ Fraction x (y, z)
