@@ -75,4 +75,4 @@ toImproper (Fraction x (y, z)) = Fraction 0 (x*z+y, z)
 toReverse :: Fraction -> Fraction
 toReverse (Fraction x (y, z)) 
 	| x == 0 = Fraction x (z, y)
-	| otherwise = toReverse $ toImproper $ (Fraction x (y, z))
+	| otherwise = toReverse $ toImproper $ Fraction x (y, z)
