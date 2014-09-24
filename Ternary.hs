@@ -41,3 +41,41 @@ x `xor'` y = (x `and'` y ) `and'` (x `nor'` y)
 infixl 1 `xnor'`
 xnor' :: Ternary -> Ternary -> Ternary
 x `xnor'` y = not' (x `xor'` y)
+
+
+
+infixl 3 &&&
+(&&&) :: Ternary -> Ternary -> Ternary
+x &&& y
+	|x==Unknown || y==Unknown = Unknown
+	|x==True' && y==True' =True'
+	|otherwise = False'
+
+infixl 2 |||
+(|||) :: Ternary -> Ternary -> Ternary
+x ||| y
+	|x==Unknown || y==Unknown = Unknown
+	|x==True' || y==True' =True'
+	|otherwise = False'
+
+(!) :: Ternary -> Ternary
+(!) x 
+	|x==Unknown = Unknown
+	|x==True' =False'
+	|otherwise = True'
+
+infixl 1 !&&
+(!&&) :: Ternary -> Ternary -> Ternary
+x !&& y = not' (x `and'` y) 
+
+infixl 1 !||
+(!||) :: Ternary -> Ternary -> Ternary
+x !|| y = not' (x `or'` y)
+
+infixl 1 ^||
+(^||) :: Ternary -> Ternary -> Ternary
+x ^|| y = (x `and'` y ) `and'` (x `nor'` y)
+
+infixl 1 ^!|
+(^!|) :: Ternary -> Ternary -> Ternary
+x ^!| y = not' (x `xor'` y)
