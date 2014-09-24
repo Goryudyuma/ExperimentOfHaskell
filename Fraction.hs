@@ -54,7 +54,7 @@ infixr 6 /-:*
 -- Fraction“¯Žm‚ÌŠ„‚èŽZ
 infixr 6 /-:/
 (/-:/) :: Fraction -> Fraction -> Fraction
-(Fraction a (b,c)) /-:/ (Fraction x (y,z)) = (Fraction a (b,c)) /-:* toReverse(toImproper(Fraction x (y,z)))
+(Fraction a (b,c)) /-:/ (Fraction x (y,z)) = (Fraction a (b,c)) /-:* toReverse(Fraction x (y,z))
 
 -- –ñ•ª‚·‚éŠÖ”
 reduce :: Fraction -> Fraction
@@ -72,4 +72,4 @@ toImproper (Fraction x (y, z)) = (Fraction 0 (x*z+y, z))
 toReverse :: Fraction -> Fraction
 toReverse (Fraction x (y, z)) 
 	| x == 0 = Fraction x (z, y)
-	| otherwise = toImproper (Fraction x (y, z))
+	| otherwise = toReverse(toImproper (Fraction x (y, z)))
