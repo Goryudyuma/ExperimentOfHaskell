@@ -36,6 +36,6 @@ reduce (Fraction a (b,c)) = a /-(b `div` (gcd b c), c `div` (gcd b c))
 toDouble :: Fraction -> Double
 toDouble (Fraction x (y, z)) = fromIntegral (x*z + y) / fromIntegral z
 
---‰¼•ª”improper fractions‚É‚·‚éŠÖ”
+--‰¼•ª”(improper fractions)‚É‚·‚éŠÖ”
 toImproper :: Fraction -> Fraction
 toImproper (Fraction x (y, z)) = (Fraction 0 (x*z+y, z))
