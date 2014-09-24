@@ -58,8 +58,8 @@ x ||| y
 	|x==True' || y==True' =True'
 	|otherwise = False'
 
-(!) :: Ternary -> Ternary
-(!) x 
+(!!!) :: Ternary -> Ternary
+(!!!) x 
 	|x==Unknown = Unknown
 	|x==True' =False'
 	|otherwise = True'
