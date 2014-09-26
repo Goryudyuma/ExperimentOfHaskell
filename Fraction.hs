@@ -16,6 +16,7 @@ module Fraction
 , reduce
 , toDouble
 , toImproper
+, assign'
 ) where
 
 type Numerator = Int
@@ -23,7 +24,7 @@ type Denominator = Int
 
 
 -- ‘Ñ•ª”
-data Fraction = Invalid | Fraction Int (Numerator, Denominator)
+data Fraction = Invalid | Fraction Int (Numerator, Denominator) 
  deriving (Show, Read, Eq, Ord)
 
 -- ‘Ñ•ª”‚ð‹‚ß‚éŠÖ”
@@ -84,4 +85,11 @@ toReverse (Fraction x (y, z))
 	| x == 0 = Fraction x (z, y)
 	| otherwise = toReverse $ toImproper $ Fraction x (y, z)
 toReverse _ = Invalid
+
+--®”•”•ª‚ðŽw’è‚µ‚ÄŒvŽZŒ‹‰Ê‚ð•Ô‚·ŠÖ”B
+assign' :: Int -> Fraction -> Fraction
+(assign') _ Invalid = Invalid
+assign' a (Fraction x (y,z)) = Fraction a ((x-a)*z+y,z)
+
+
 
