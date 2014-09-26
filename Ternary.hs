@@ -12,6 +12,14 @@ module Ternary
 , toTernary
 , (&&&)
 , (|||)
+, (!&&)
+, (!||)
+, (^||)
+, (^!|)
+, (!&)
+, (!|)
+, (^|)
+, (^!)
 , not'
 , and'
 , or'
@@ -107,4 +115,34 @@ x `xor` y = (x && y) && (x `nor` y)
 xnor :: Bool -> Bool -> Bool
 x `xnor` y = not $ x `xor` y
 
+-- Ternaryの否定論理積記号
+(!&&) :: Ternary -> Ternary -> Ternary
+x !&& y = x `nand'` y
 
+-- Ternaryの否定論理和記号
+(!||) :: Ternary -> Ternary -> Ternary
+x !|| y = x `nor'` y
+
+-- Ternaryの排他的論理和記号
+(^||) :: Ternary -> Ternary -> Ternary
+x ^|| y = x `xor'` y
+
+-- Ternaryの一致記号
+(^!|) :: Ternary -> Ternary -> Ternary
+x ^!| y = x `xnor'` y
+
+--Bool nand記号
+(!&) :: Bool -> Bool -> Bool
+x !& y = x `nand` y
+
+-- Bool nor記号
+(!|) :: Bool -> Bool -> Bool
+x !| y = x `nor` y
+
+-- Bool xor記号
+(^|) :: Bool -> Bool -> Bool
+x ^| y = x `xor` y
+
+-- Bool xnor記号
+(^!) :: Bool -> Bool -> Bool
+x ^! y = x `xnor` y
