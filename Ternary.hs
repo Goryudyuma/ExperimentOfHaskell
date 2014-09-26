@@ -17,6 +17,10 @@ module Ternary
 , (!||)
 , (^||)
 , (^!|)
+, (!&)
+, (!|)
+, (^|)
+, (^!)
 , not'
 , and'
 , or'
@@ -135,3 +139,18 @@ x `xor` y = (x && y) && (x `nor` y)
 xnor :: Bool -> Bool -> Bool
 x `xnor` y = not $ x `xor` y
 
+--Bool nand記号
+(!&) :: Bool -> Bool -> Bool
+x !& y = x `nand` y
+
+-- Bool nor記号
+(!|) :: Bool -> Bool -> Bool
+x !| y = x `nor` y
+
+-- Bool xor記号
+(^|) :: Bool -> Bool -> Bool
+x ^| y = x `xor` y
+
+-- Bool xnor記号
+(^!) :: Bool -> Bool -> Bool
+x ^! y = x `xnor` y
