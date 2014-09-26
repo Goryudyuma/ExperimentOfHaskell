@@ -61,7 +61,7 @@ _ /-:* _ = Invalid
 -- Fraction“¯m‚ÌŠ„‚èZ
 infixr 6 /-:/
 (/-:/) :: Fraction -> Fraction -> Fraction
-(Fraction a (b,c)) /-:/ (Fraction x (y,z)) = (Fraction a (b,c)) /-:* toReverse $ Fraction x (y,z)
+(Fraction a (b,c)) /-:/ (Fraction x (y,z)) = (Fraction a (b,c)) /-:* toReverse (Fraction x (y,z))
 _ /-:/ _ = Invalid
 
 -- –ñ•ª‚·‚éŠÖ”
