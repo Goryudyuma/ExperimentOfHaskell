@@ -40,13 +40,13 @@ x /- (y,z)
 -- Fraction“¯Žm‚Ì‘«‚µŽZ
 infixr 5 /-:+
 (/-:+) :: Fraction -> Fraction -> Fraction
-(Fraction a (b,c)) /-:+ (Fraction x (y,z)) = reduce ((a+x) /- (b*z + c*y, c*z))
+(Fraction a (b,c)) /-:+ (Fraction x (y,z)) = reduce $ (a+x) /- (b*z + c*y, c*z)
 _ /-:+ _ = Invalid
 
 -- Fraction“¯Žm‚Ìˆø‚«ŽZ
 infixr 5 /-:-
 (/-:-) :: Fraction -> Fraction -> Fraction
-(Fraction a (b,c)) /-:- (Fraction x (y,z)) = reduce ((a-x) /- (b*z - c*y, c*z))
+(Fraction a (b,c)) /-:- (Fraction x (y,z)) = reduce $ (a-x) /- (b*z - c*y, c*z)
 _ /-:- _ = Invalid
 
 -- Fraction“¯Žm‚ÌŠ|‚¯ŽZ
@@ -61,7 +61,7 @@ _ /-:* _ = Invalid
 -- Fraction“¯Žm‚ÌŠ„‚èŽZ
 infixr 6 /-:/
 (/-:/) :: Fraction -> Fraction -> Fraction
-(Fraction a (b,c)) /-:/ (Fraction x (y,z)) = (Fraction a (b,c)) /-:* toReverse (Fraction x (y,z))
+(Fraction a (b,c)) /-:/ (Fraction x (y,z)) = (Fraction a (b,c)) /-:* toReverse $ Fraction x (y,z)
 _ /-:/ _ = Invalid
 
 -- –ñ•ª‚·‚éŠÖ”
@@ -88,8 +88,6 @@ toReverse _ = Invalid
 
 --®”•”•ª‚ðŽw’è‚µ‚ÄŒvŽZŒ‹‰Ê‚ð•Ô‚·ŠÖ”B
 assign' :: Int -> Fraction -> Fraction
-(assign') _ Invalid = Invalid
 assign' a (Fraction x (y,z)) = Fraction a ((x-a)*z+y,z)
-
-
+assign' _ _ = Invalid
 
