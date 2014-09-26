@@ -55,7 +55,7 @@ infixr 6 /-:*
 (Fraction a (b,c)) /-:* (Fraction x (y,z))
 	| a == 0 && x == 0 = reduce (0 /- (b*y, c*z))
 	| a /= 0 = toImproper (Fraction a (b, c)) /-:* (Fraction x (y, z))
-	| otherwise = (Fraction a (b, c)) /-:* (toImproper $ Fraction x (y, z))
+	| otherwise = (Fraction a (b, c)) /-:* toImproper (Fraction x (y, z))
 _ /-:* _ = Invalid
 
 -- Fraction“¯Žm‚ÌŠ„‚èŽZ

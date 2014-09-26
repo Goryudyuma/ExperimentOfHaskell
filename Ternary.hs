@@ -83,66 +83,74 @@ not' True' = False'
 not' False' = True'
 not' _ = Unknown
 
--- Ternary‚Ì”Û’è˜_—Ï
-nand' :: Ternary -> Ternary -> Ternary
-x `nand'` y = not' $ x &&& y
+-- Ternary‚ÌList‚Ì”Û’è˜_—Ï
+nand' :: [Ternary] -> Ternary
+nand' = foldr (!&&) False'
 
--- Ternary‚Ì”Û’è˜_—˜a
-nor' :: Ternary -> Ternary -> Ternary
-x `nor'` y = not' $ x ||| y
+-- Ternary‚ÌList‚Ì”Û’è˜_—˜a
+nor' :: [Ternary] -> Ternary
+nor' = foldr (!||) True'
 
--- Ternary‚Ì”r‘¼“I˜_—˜a
-xor' :: Ternary -> Ternary -> Ternary
-x `xor'` y = (x &&& y) &&& (x `nor'` y)
+-- Ternary‚ÌList‚Ì”r‘¼“I˜_—˜a
+xor' :: [Ternary] -> Ternary
+xor' = foldr (^||) True'
 
--- Ternary‚Ìˆê’v
-xnor' :: Ternary -> Ternary -> Ternary
-x `xnor'` y = not' $ x `xor'` y
+-- Ternary‚ÌList‚Ìˆê’v
+xnor' :: [Ternary] -> Ternary
+xnor' = foldr (^!|) True'
 
--- Bool nand
-nand :: Bool -> Bool -> Bool
-x `nand` y = not $ x && y
+-- BoolList‚Ì nand
+nand :: [Bool] -> Bool
+nand = foldr (!&) False
 
--- Bool nor
-nor :: Bool -> Bool -> Bool
-x `nor` y = not $ x || y
+-- BoolList‚Ì nor
+nor :: [Bool] -> Bool
+nor = foldr (!|) True 
 
--- Bool xor
-xor :: Bool -> Bool -> Bool
-x `xor` y = (x && y) && (x `nor` y)
+-- BoolList‚Ì xor
+xor :: [Bool] -> Bool
+xor = foldr (^|) True
 
--- Bool xnor
-xnor :: Bool -> Bool -> Bool
-x `xnor` y = not $ x `xor` y
+-- BoolList‚Ì xnor
+xnor :: [Bool] -> Bool
+xnor = foldr (^!) True
 
 -- Ternary‚Ì”Û’è˜_—Ï‹L†
+infixr 3 !&&
 (!&&) :: Ternary -> Ternary -> Ternary
-x !&& y = x `nand'` y
+x !&& y = not' $ x &&& y
 
 -- Ternary‚Ì”Û’è˜_—˜a‹L†
+infixr 2 !||
 (!||) :: Ternary -> Ternary -> Ternary
-x !|| y = x `nor'` y
+x !|| y = not' $ x ||| y
 
 -- Ternary‚Ì”r‘¼“I˜_—˜a‹L†
+infixr 2 ^||
 (^||) :: Ternary -> Ternary -> Ternary
-x ^|| y = x `xor'` y
+x ^|| y = (x &&& y) &&& (x !|| y)
 
 -- Ternary‚Ìˆê’v‹L†
+infixr 2 ^!|
 (^!|) :: Ternary -> Ternary -> Ternary
-x ^!| y = x `xnor'` y
+x ^!| y = not' $ x ^|| y
 
 --Bool nand‹L†
+infixr 3 !&
 (!&) :: Bool -> Bool -> Bool
-x !& y = x `nand` y
+x !& y = not $ x && y
 
 -- Bool nor‹L†
+infixr 2 !|
 (!|) :: Bool -> Bool -> Bool
-x !| y = x `nor` y
+x !| y = not $ x !| y
 
 -- Bool xor‹L†
+infixr 2 ^|
 (^|) :: Bool -> Bool -> Bool
-x ^| y = x `xor` y
+x ^| y = (x && y) && (x !| y)
 
 -- Bool xnor‹L†
+infixr 2 ^!
 (^!) :: Bool -> Bool -> Bool
-x ^! y = x `xnor` y
+x ^! y = not $ x ^! y
