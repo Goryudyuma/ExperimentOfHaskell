@@ -12,11 +12,6 @@ module Ternary
 , toTernary
 , (&&&)
 , (|||)
-, (!!!)
-, (!&&)
-, (!||)
-, (^||)
-, (^!|)
 , not'
 , and'
 , or'
@@ -36,29 +31,6 @@ instance Show Ternary where
 	show Unknown = "Unknown"
 	show True' = "True"
 	show _ = "False"
-
-
-(!!!) :: Ternary -> Ternary
-(!!!) x 
-	|x==Unknown = Unknown
-	|x==True' =False'
-	|otherwise = True'
-
-infixl 1 !&&
-(!&&) :: Ternary -> Ternary -> Ternary
-x !&& y = (!!!) (x &&& y) 
-
-infixl 1 !||
-(!||) :: Ternary -> Ternary -> Ternary
-x !|| y = (!!!) (x ||| y)
-
-infixl 1 ^||
-(^||) :: Ternary -> Ternary -> Ternary
-x ^|| y = (x &&& y ) &&& (x !|| y)
-
-infixl 1 ^!|
-(^!|) :: Ternary -> Ternary -> Ternary
-x ^!| y = (!!!) (x ^|| y)
 
 -- Ternary‚©‚çBool
 toBool :: Ternary -> Maybe Bool
@@ -134,4 +106,5 @@ x `xor` y = (x && y) && (x `nor` y)
 -- Bool xnor
 xnor :: Bool -> Bool -> Bool
 x `xnor` y = not $ x `xor` y
+
 
