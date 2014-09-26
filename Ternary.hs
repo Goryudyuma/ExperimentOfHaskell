@@ -115,7 +115,6 @@ x `xor` y = (x && y) && (x `nor` y)
 xnor :: Bool -> Bool -> Bool
 x `xnor` y = not $ x `xor` y
 
-
 -- Ternary‚Ì”Û’è˜_—Ï‹L†
 (!&&) :: Ternary -> Ternary -> Ternary
 x !&& y = x `nand'` y
