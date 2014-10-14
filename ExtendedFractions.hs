@@ -13,6 +13,8 @@ instance Show InfinitePrecision where
 	show (InfinitePrecision x y) = show x ++ "." ++ show y
 
 
-infixl 9 .?
+infixl 8 .?
 (.?) :: (Integral a) => a -> a -> InfinitePrecision
-x .? y = InfinitePrecision (fromIntegral x) (fromIntegral y)
+x .? y
+	| y < 0 = negate x .? abs y
+	| otherwise = InfinitePrecision (fromIntegral x) (fromIntegral y)
