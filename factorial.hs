@@ -12,4 +12,4 @@ factorial :: Integer -> Maybe Integer
 factorial x
 	| x < 0 = Nothing
 	| x == 0 = Just 1
-	| otherwise = pure (*) <*> Just x <*> factorial (x - 1)
+	| otherwise = pure (*x) <*> factorial (x - 1)
