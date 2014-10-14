@@ -9,7 +9,7 @@ Compiler: ghc
 
 内容
 =====
-Fraction.hs ： 帯分数を扱うモジュール<br />
+ExtendedFractions.hs ： 分数を扱うモジュール<br />
 Ternary.hs ： 三値論理演算とBool演算拡張モジュール
 
 
