@@ -17,6 +17,8 @@ module Fraction
 , toDouble
 , toImproper
 , assign'
+, fromRecurring
+, keta
 ) where
 
 type Numerator = Int
@@ -90,4 +92,17 @@ toReverse _ = Invalid
 assign' :: Int -> Fraction -> Fraction
 assign' a (Fraction x (y,z)) = Fraction a ((x-a)*z+y,z)
 assign' _ _ = Invalid
+
+
+
+--zŠÂ¬”‚ð•ª”‚É’¼‚·(‰¼)
+fromRecurring :: Int->Fraction
+fromRecurring c = 0/-(c,(10^(keta c)-1))
+
+--Œ…”‚ðo‚·ŠÖ”
+keta :: Int -> Int
+keta a
+	|a == 0 = 0
+	|otherwise = keta (( a `div` 10 )::Int) + 1
+
 
