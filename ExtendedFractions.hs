@@ -66,11 +66,11 @@ setFixedPrecision _ _ = Invalid
 -- 整数桁で既にn桁を越えていたら整数桁のみ表示
 -- 整数桁と小数桁を合わせてnに達しないときは小数部に0を追加する
 setPrecision :: Int -> InfinitePrecision -> InfinitePrecision
-setPrecision _ Invalid = Invalid
 setPrecision n (InfinitePrecision x ys)
 	| n <= 0 = Invalid
 	| n <= intLength x 0 = InfinitePrecision x []
 	| otherwise = InfinitePrecision x $ take (n - intLength x 0) (ys ++ replicate (n - intLength x 0) 0)
+setPrecision _ _ = Invalid
 
 
 ---- 無限小数関連ここまで ----
