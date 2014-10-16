@@ -38,6 +38,7 @@ divConv x y = InfinitePrecision (fromIntegral (x `div` y)) (calcFunc (fromIntegr
 	      calcFunc a b = (a `div` b) : calcFunc ((a `mod` b) * 10) b
 
 -- InfinitePrecisionの割り算
+-- ただし無限に続く場合は使えないかもしれない
 infixl 6 /?
 (/?) :: InfinitePrecision -> InfinitePrecision -> InfinitePrecision
 (InfinitePrecision a bs) /? (InfinitePrecision x ys) =
@@ -49,7 +50,7 @@ infixl 6 /?
 _ /? _ = Invalid
 
 -- 整数の桁数
-intLength :: Integer -> Int -> Int
+intLength :: (Integral a) => a -> Int -> Int
 intLength 0 0 = 1
 intLength 0 n = n
 intLength x n = intLength (x `div` 10) (n + 1)
