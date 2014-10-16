@@ -8,8 +8,8 @@ main = do
 	(input : _) <- getArgs
 	print $ factorial (read input :: Integer)
 
-factorial :: Integer -> Maybe Integer
+factorial :: (Integral a) => a -> Maybe a
 factorial x
 	| x < 0 = Nothing
 	| x == 0 = Just 1
-	| otherwise = pure (*x) <*> factorial (x - 1)
+	| otherwise = (*x) <$> factorial (x - 1)
