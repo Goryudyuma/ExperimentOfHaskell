@@ -45,8 +45,21 @@ instance Ord Infinite where
 		where
 		c `cmp` d = if a < 0 then not c `compare` not d else c `compare` d
 		fcmp (s : ss) (t : ts) = cmp s t `mappend` fcmp ss ts
+		fcmp [] (t : ts) = cmp False t `mappend` fcmp [] ts
+		fcmp (s : ss) [] = cmp s False `mappend` fcmp ss []
 		fcmp _ _ = EQ
 
+instance Show Infinite where
+	show (Infinite (a, bs)) = show a ++ (tail . show . dec (length bs)) bs
+
+{-
+instance Num Infinite where
+	abs (Infinite (a, bs)) = Infinite (abs a, bs)
+	negate (Infinite (a, bs)) = Infinite (negate a, bs)
+	signum (Infinite (a, bs)) = signum a
+	fromInteger a = Infinite (a, [])
+	Infinite (a, bs) + Infinite (x, ys) = 
+-}
 newtype DiffList a = DiffList { getDiffList :: [a] -> [a] }
 
 instance Monoid (DiffList a) where
@@ -77,7 +90,10 @@ fracDiffList x
 		double = 2.0 * x 
 
 unbinarize :: Int -> Infinite -> Double
-unbinarize n (Infinite (a, bs)) = fromIntegral a + sgn a * (fst . foldl (\(acc, ys) x -> (acc + if x then 1.0 / (2.0 ** head ys) else 0, tail ys)) (0.0, [1..]) . take n) bs
+unbinarize n (Infinite (a, bs)) = fromIntegral a + sgn a * dec n bs
+
+dec :: Int -> [Bool] -> Double
+dec n = fst . foldl (\(acc, ys) x -> (acc + if x then 1.0 / (2.0 ** head ys) else 0, tail ys)) (0.0, [1 .. ]) . take n
 
 getAsDouble = unbinarize 100 
 
