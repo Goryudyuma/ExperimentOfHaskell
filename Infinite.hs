@@ -37,28 +37,28 @@ getAsDouble' :: Int -> Infinite -> Double
 
 
 
-newtype Infinite = Infinite { lookInInfinite :: (Integer, [Bool]) }
+newtype Infinite = Infinite { lookInInfinite :: (Bool, Integer, [Bool]) }
 	deriving (Eq)
 
 instance Ord Infinite where
-	Infinite (a, bs) `compare` Infinite (x, ys) = compare a x `mappend` fcmp bs ys
+	Infinite (c, a, bs) `compare` Infinite (z, x, ys) = compare (if c then a else negate a) (if z then x else negate x) `mappend` fcmp bs ys
 		where
-		c `cmp` d = if a < 0 then not c `compare` not d else c `compare` d
+		d `cmp` e = if c then d `compare` e else not d `compare` not e
 		fcmp (s : ss) (t : ts) = cmp s t `mappend` fcmp ss ts
 		fcmp [] (t : ts) = cmp False t `mappend` fcmp [] ts
 		fcmp (s : ss) [] = cmp s False `mappend` fcmp ss []
 		fcmp _ _ = EQ
 
 instance Show Infinite where
-	show (Infinite (a, bs)) = show a ++ (tail . show . dec (length bs)) bs
-
+	show (Infinite (c, a, bs)) = if c then "" else "-" ++ show a ++ (tail . show . dec (length bs)) bs
 {-
 instance Num Infinite where
-	abs (Infinite (a, bs)) = Infinite (abs a, bs)
-	negate (Infinite (a, bs)) = Infinite (negate a, bs)
-	signum (Infinite (a, bs)) = signum a
-	fromInteger a = Infinite (a, [])
-	Infinite (a, bs) + Infinite (x, ys) = 
+	abs (Infinite (_, a, bs)) = Infinite (True, a, bs)
+	negate (Infinite (c, a, bs)) = Infinite (not c, a, bs)
+	signum (Infinite (_, 0, [])) = Infinite (True, 0, [])
+	signum (Infinite (c, _, _)) = Infinite (c, 0, [])
+	fromInteger a = Infinite (a >= 0, a, [])
+	Infinite (c, a, bs) + Infinite (z, x, ys) = 
 -}
 newtype DiffList a = DiffList { getDiffList :: [a] -> [a] }
 
@@ -72,13 +72,7 @@ toDiffList xs = DiffList (xs ++)
 fromDiffList :: DiffList a -> [a]
 fromDiffList = flip getDiffList []
 
-sgn :: (Num a, Ord a, Num b) => a -> b
-sgn x
-	| x >= 0 = 1
-	| otherwise = (-1)
-
-
-infinite a = Infinite (sgn a * intpart, fromDiffList . fracDiffList $ abs a - fromIntegral intpart)
+infinite a = Infinite (a >= 0.0, intpart, fromDiffList . fracDiffList $ abs a - fromIntegral intpart)
 	where
 	intpart = floor . abs $ a
 
@@ -90,7 +84,7 @@ fracDiffList x
 		double = 2.0 * x 
 
 unbinarize :: Int -> Infinite -> Double
-unbinarize n (Infinite (a, bs)) = fromIntegral a + sgn a * dec n bs
+unbinarize n (Infinite (c, a, bs)) = if c then fromIntegral a + dec n bs else fromIntegral a - dec n bs
 
 dec :: Int -> [Bool] -> Double
 dec n = fst . foldl (\(acc, ys) x -> (acc + if x then 1.0 / (2.0 ** head ys) else 0, tail ys)) (0.0, [1 .. ]) . take n
