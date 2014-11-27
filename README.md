@@ -9,7 +9,7 @@ Compiler: ghc
 
 内容
 =====
-ExtendedFractions.hs ： 分数を扱うモジュール<br />
+Infinite.hs ： 無限精度実数モジュール<br />
 Ternary.hs ： 三値論理演算とBool演算拡張モジュール
 
 
