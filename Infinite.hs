@@ -6,6 +6,7 @@ module Infinite
 	, lookInInfinite
 	, getAsDouble
 	, getAsDouble'
+	, showWithPrecision
 	) where
 
 import Data.Monoid
@@ -23,6 +24,9 @@ getAsDouble :: Infinite -> Double
 getAsDouble' :: Int -> Infinite -> Double
 -- getAsDouble' : 第１引数はgetAsDoubleに比べて何倍正確に変換するかをInt型で、第２引数は変換したいInfinite型の数
 -- getAsDoubleでは正確な値が得られないときにご利用ください
+--
+showWithPrecision :: Int -> Infinite -> String
+-- showWithPrecision : 小数点以下桁数を指定して文字列化
 --
 -- lookInInfinite : 引数として受け取ったInfinite型の内部実装を覗きたい物好きな人向けの関数
 --
@@ -50,7 +54,7 @@ instance Ord Infinite where
 		fcmp _ _ = EQ
 
 instance Show Infinite where
-	show (Infinite (c, a, bs)) = if c then "" else "-" ++ show a ++ (tail . show . dec (length bs)) bs
+	show d@(Infinite (_, _, bs)) = showWithPrecision (length bs) d 
 {-
 instance Num Infinite where
 	abs (Infinite (_, a, bs)) = Infinite (True, a, bs)
@@ -93,3 +97,4 @@ getAsDouble = unbinarize 100
 
 getAsDouble' n = unbinarize (100 * n)
 
+showWithPrecision n (Infinite (c, a, bs)) = if c then "" else "-" ++ show a ++ (take (n + 1) . tail . show . dec (4 * (n + 1))) bs
