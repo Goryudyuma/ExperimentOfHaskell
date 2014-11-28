@@ -97,4 +97,4 @@ getAsDouble = unbinarize 100
 
 getAsDouble' n = unbinarize (100 * n)
 
-showWithPrecision n (Infinite (c, a, bs)) = if c then "" else "-" ++ show a ++ (take (n + 1) . tail . show . dec (4 * (n + 1))) bs
+showWithPrecision n (Infinite (c, a, bs)) = (if c then "" else "-") ++ show a ++ (take (n + 1) . tail . show . dec (4 * (n + 1))) bs
